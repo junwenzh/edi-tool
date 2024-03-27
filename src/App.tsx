@@ -26,7 +26,7 @@ function App() {
     const combinedTransaction = transactions.reduce((prev, curr) => {
       prev.providers = Object.assign({}, prev.providers, curr.providers);
       prev.subscribers = Object.assign({}, prev.subscribers, curr.subscribers);
-      prev.claims.push(...prev.claims, ...curr.claims);
+      prev.claims = [...prev.claims, ...curr.claims];
       return prev;
     });
 
