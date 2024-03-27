@@ -27,7 +27,7 @@ function test() {
   // test2310C(lines);
 
   const result = parseFile(file);
-  console.log(result);
+  console.log(result[0].Loop2000A);
 }
 
 function test2000A(lines: string[][]) {
