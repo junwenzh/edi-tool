@@ -23,7 +23,7 @@ function parseLoop2000B(lines: string[][], index: number) {
 
     if (loop[segment] || !(segment in loop)) {
       return {
-        index: i,
+        index: i - 1,
         loop,
       };
     } else if (segment === 'HL') {

@@ -5,10 +5,12 @@ class Loop2000A {
 
   HL?: number;
   PRV?: number;
+  CUR?: number;
 
   constructor() {
     this.HL = undefined;
     this.PRV = undefined;
+    this.CUR = undefined;
   }
 }
 
@@ -21,13 +23,15 @@ function parseLoop2000A(lines: string[][], index: number) {
 
     if (loop[segment] || !(segment in loop)) {
       return {
-        index: i,
+        index: i - 1,
         loop,
       };
     } else if (segment === 'HL') {
       loop.HL = i;
     } else if (segment === 'PRV') {
       loop.PRV = i;
+    } else if (segment === 'CUR') {
+      loop.CUR = i;
     }
   }
 }

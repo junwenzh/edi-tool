@@ -42,7 +42,7 @@ function parseTransaction(lines: string[][], index: number) {
     const segment = line[0];
     if (segment === 'SE') {
       return {
-        index: i,
+        index: i - 1,
         transaction: transaction,
       };
     } else if (segment === 'HL' && line[3] === '20') {

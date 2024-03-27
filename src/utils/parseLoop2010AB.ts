@@ -23,7 +23,7 @@ function parseLoop2010AB(lines: string[][], index: number) {
 
     if (loop[segment] || !(segment in loop)) {
       return {
-        index: i,
+        index: i - 1,
         loop,
       };
     } else if (segment === 'NM1') {

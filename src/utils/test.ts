@@ -14,7 +14,8 @@ function test() {
   const path =
     '/Users/jun/Downloads/P.CB77244.T77244.PB.D240319.T0135061.11341049';
   const file = fs.readFileSync(path, 'utf-8').replace(/\r\n/g, '');
-  // const lines = file.split('~').map(line => line.split('*'));
+  const lines = file.split('~').map(line => line.split('*'));
+  // console.log(lines.slice(0, 20));
 
   // test2000A(lines);
   // test2010AA(lines);
