@@ -1,13 +1,13 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 interface EditableTextFieldProps {
-  text?: string;
+  text: string;
   onUpdate: (newText: string) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function EditableTextField({
-  text = '',
+  text,
   onUpdate,
   onChange,
 }: EditableTextFieldProps) {

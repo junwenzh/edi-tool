@@ -8,7 +8,8 @@ import TransactionDisplay from './components/TransactionDisplay';
 import parseEDI, { Transaction } from './utils/parseEDI';
 
 function App() {
-  const [transactions, setTransctions] = useState<Transaction[]>([]);
+  const [transaction, setTransction] = useState<Transaction>();
+  const [transactionCount, setTransactionCount] = useState<number>(0);
   const [providerCount, setProviderCount] = useState<number>(0);
   const [memberCount, setMemberCount] = useState<number>(0);
   const [claimCount, setClaimCount] = useState<number>(0);
@@ -21,7 +22,18 @@ function App() {
     const content = await readFileContent(file);
     const { lines, transactions } = parseEDI(content);
     setLines(lines);
-    setTransctions(transactions);
+
+    const combinedTransaction = transactions.reduce((prev, curr) => {
+      prev.providers = Object.assign(prev.providers, curr.providers);
+      prev.subscribers = Object.assign(prev.subscribers, curr.subscribers);
+      prev.claims.push(...curr.claims);
+      return prev;
+    });
+
+    setTransction(combinedTransaction);
+
+    setTransactionCount(transactions.length);
+
     const provCount = transactions.reduce(
       (prev, curr) => prev + Object.keys(curr.providers).length,
       0
@@ -133,7 +145,7 @@ function App() {
         <ExportButton data={lines} filename={`837_${fileName}.txt`} />
       </div>
       <SummaryDisplay
-        transactions={transactions.length}
+        transactions={transactionCount}
         providers={providerCount}
         members={memberCount}
         claims={claimCount}
@@ -148,9 +160,7 @@ function App() {
           onChange={handleDateChange}
         />
       </div>
-      {transactions.map((transaction, idx) => (
-        <TransactionDisplay key={idx} transaction={transaction} />
-      ))}
+      {transaction ? <TransactionDisplay transaction={transaction!} /> : ''}
       {/* <CodeBlock code="select * from claims" language="sql" /> */}
       <Toaster />
     </main>
