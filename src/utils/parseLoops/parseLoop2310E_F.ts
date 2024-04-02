@@ -1,0 +1,43 @@
+// service facility
+
+class Loop2310C_P {
+  [key: string]: number | undefined;
+
+  NM1?: number;
+  N3?: number;
+  N4?: number;
+  REF?: number;
+
+  constructor() {
+    this.NM1 = undefined;
+    this.N3 = undefined;
+    this.N4 = undefined;
+    this.REF = undefined;
+  }
+}
+
+function parseLoop2310C_P(lines: string[][], index: number) {
+  const loop = new Loop2310C_P();
+
+  for (let i = index; i < lines.length; i++) {
+    const line = lines[i];
+    const segment = line[0];
+
+    if (loop[segment] || !(segment in loop)) {
+      return {
+        index: i,
+        loop,
+      };
+    } else if (segment === 'NM1') {
+      loop.NM1 = i;
+    } else if (segment === 'N3') {
+      loop.N3 = i;
+    } else if (segment === 'N4') {
+      loop.N4 = i;
+    } else if (segment === 'REF') {
+      loop.REF = i;
+    }
+  }
+}
+
+export { Loop2310C_P, parseLoop2310C_P };

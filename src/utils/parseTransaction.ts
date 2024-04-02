@@ -1,12 +1,18 @@
 // takes in a file and parses the loops while keeping track of the hiearchy
 
-import { Loop2310B, parseLoop2310B } from './parse2310B';
-import { Loop2310C, parseLoop2310C } from './parse2310C';
-import { Loop2000A, parseLoop2000A } from './parseLoop2000A';
-import { Loop2000B, parseLoop2000B } from './parseLoop2000B';
-import { Loop2010AB, parseLoop2010AB } from './parseLoop2010AB';
-import { Loop2010BA, parseLoop2010BA } from './parseLoop2010BA';
-import { Loop2300, parseLoop2300 } from './parseLoop2300';
+import { Loop2000A, parseLoop2000A } from './parseLoops/parseLoop2000A';
+import { Loop2000B, parseLoop2000B } from './parseLoops/parseLoop2000B';
+import { Loop2010AB, parseLoop2010AB } from './parseLoops/parseLoop2010AB';
+import { Loop2010BA, parseLoop2010BA } from './parseLoops/parseLoop2010BA';
+import { Loop2300, parseLoop2300 } from './parseLoops/parseLoop2300';
+import {
+  LoopRenderingProvider,
+  parseLoopRenderingProvider,
+} from './parseLoops/parseLoopRenderingProvider';
+import {
+  LoopServiceFacility,
+  parseLoopServiceFacility,
+} from './parseLoops/parseLoopServiceFacility';
 
 class Transaction {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,8 +23,6 @@ class Transaction {
   Loop2000B: Loop2000B[];
   Loop2010BA: Loop2010BA[];
   Loop2300: Loop2300[];
-  Loop2310B: Loop2310B[];
-  Loop2310C: Loop2310C[];
 
   constructor() {
     this.Loop2000A = [];
@@ -26,13 +30,17 @@ class Transaction {
     this.Loop2000B = [];
     this.Loop2010BA = [];
     this.Loop2300 = [];
-    this.Loop2310B = [];
-    this.Loop2310C = [];
   }
 }
 
 function parseTransaction(lines: string[][], index: number) {
   const transaction = new Transaction();
+
+  let currentBillingProvider: Loop2000A;
+  let currentProviders: {
+    rendering?: LoopRenderingProvider;
+    serviceFacility?: LoopServiceFacility;
+  };
 
   for (let i = index; i < lines.length; i++) {
     const line = lines[i];
@@ -45,6 +53,7 @@ function parseTransaction(lines: string[][], index: number) {
     } else if (segment === 'HL' && line[3] === '20') {
       const loop = parseLoop2000A(lines, i)!;
       transaction.Loop2000A.push(loop.loop);
+      currentBillingProvider = loop.loop;
       i = loop.index;
     } else if (segment === 'NM1' && line[1] === '87') {
       const loop = parseLoop2010AB(lines, i)!;
@@ -61,15 +70,22 @@ function parseTransaction(lines: string[][], index: number) {
     } else if (segment === 'CLM') {
       const loop = parseLoop2300(lines, i)!;
       transaction.Loop2300.push(loop.loop);
+      currentProviders = {};
       i = loop.index;
     } else if (segment === 'NM1' && line[1] === '82') {
-      const loop = parseLoop2310B(lines, i)!;
-      transaction.Loop2310B.push(loop.loop);
+      const loop = parseLoopRenderingProvider(lines, i)!;
+      // transaction.LoopRenderingProvider.push(loop.loop);
+      currentProviders!.rendering = loop.loop;
       i = loop.index;
     } else if (segment === 'NM1' && line[1] === '77') {
-      const loop = parseLoop2310C(lines, i)!;
-      transaction.Loop2310C.push(loop.loop);
+      const loop = parseLoopServiceFacility(lines, i)!;
+      // transaction.LoopServiceFacility.push(loop.loop);
+      currentProviders!.serviceFacility = loop.loop;
       i = loop.index;
+    } else if (segment === 'LX') {
+      if (Object.keys(currentProviders!).length) {
+        currentBillingProvider!.providers.push(currentProviders!);
+      }
     }
   }
 }

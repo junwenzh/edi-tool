@@ -1,6 +1,6 @@
 // rendering provider
 
-class Loop2310B {
+class Loop2310B_P {
   [key: string]: number | undefined;
 
   NM1?: number;
@@ -14,8 +14,8 @@ class Loop2310B {
   }
 }
 
-function parseLoop2310B(lines: string[][], index: number) {
-  const loop = new Loop2310B();
+function parseLoop2310B_P(lines: string[][], index: number) {
+  const loop = new Loop2310B_P();
 
   for (let i = index; i < lines.length; i++) {
     const line = lines[i];
@@ -36,4 +36,4 @@ function parseLoop2310B(lines: string[][], index: number) {
   }
 }
 
-export { Loop2310B, parseLoop2310B };
+export { Loop2310B_P, parseLoop2310B_P };

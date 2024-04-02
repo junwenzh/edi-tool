@@ -1,6 +1,6 @@
 // service facility
 
-class Loop2310C {
+class LoopServiceFacility {
   [key: string]: number | undefined;
 
   NM1?: number;
@@ -18,8 +18,8 @@ class Loop2310C {
   }
 }
 
-function parseLoop2310C(lines: string[][], index: number) {
-  const loop = new Loop2310C();
+function parseLoopServiceFacility(lines: string[][], index: number) {
+  const loop = new LoopServiceFacility();
 
   for (let i = index; i < lines.length; i++) {
     const line = lines[i];
@@ -44,4 +44,4 @@ function parseLoop2310C(lines: string[][], index: number) {
   }
 }
 
-export { Loop2310C, parseLoop2310C };
+export { LoopServiceFacility, parseLoopServiceFacility };

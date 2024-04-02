@@ -1,15 +1,13 @@
 import toast from 'react-hot-toast';
 
 interface ExportButtonProps {
-  data: string[];
+  data: string;
   filename: string;
 }
 
 function ExportButton({ data, filename }: ExportButtonProps) {
   const createTextFile = () => {
-    const dataString = data.join('~');
-
-    const blob = new Blob([dataString], { type: 'text/plain' });
+    const blob = new Blob([data], { type: 'text/plain' });
     const fileUrl = URL.createObjectURL(blob);
 
     const linkElement = document.createElement('a');
@@ -19,7 +17,7 @@ function ExportButton({ data, filename }: ExportButtonProps) {
 
     URL.revokeObjectURL(fileUrl); // Cleanup
 
-    toast('Downloading file', { duration: 1500 });
+    toast('Downloading file...', { duration: 1500 });
   };
 
   return (

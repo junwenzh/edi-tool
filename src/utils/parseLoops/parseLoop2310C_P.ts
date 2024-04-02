@@ -1,29 +1,25 @@
-// begins at NM1 * 87
+// service facility
 
-class Loop2010AA {
+class Loop2310C_P {
   [key: string]: number | undefined;
 
   NM1?: number;
   N3?: number;
   N4?: number;
-  TaxId?: number;
-  NPI?: number;
-  PER?: number;
   REF?: number;
+  PER?: number;
 
   constructor() {
     this.NM1 = undefined;
     this.N3 = undefined;
     this.N4 = undefined;
-    this.TaxId = undefined;
-    this.NPI = undefined;
-    this.PER = undefined;
     this.REF = undefined;
+    this.PER = undefined;
   }
 }
 
-function parseLoop2010AA(lines: string[][], index: number) {
-  const loop = new Loop2010AA();
+function parseLoop2310C_P(lines: string[][], index: number) {
+  const loop = new Loop2310C_P();
 
   for (let i = index; i < lines.length; i++) {
     const line = lines[i];
@@ -31,7 +27,7 @@ function parseLoop2010AA(lines: string[][], index: number) {
 
     if (loop[segment] || !(segment in loop)) {
       return {
-        index: i - 1,
+        index: i,
         loop,
       };
     } else if (segment === 'NM1') {
@@ -41,15 +37,11 @@ function parseLoop2010AA(lines: string[][], index: number) {
     } else if (segment === 'N4') {
       loop.N4 = i;
     } else if (segment === 'REF') {
-      if (line[1] === 'EI' || line[1] === 'SY') {
-        loop.TaxId = i;
-      } else if (line[1] === '0B' || line[1] === '1G') {
-        loop.NPI = i;
-      }
+      loop.REF = i;
     } else if (segment === 'PER') {
       loop.PER = i;
     }
   }
 }
 
-export { Loop2010AA, parseLoop2010AA };
+export { Loop2310C_P, parseLoop2310C_P };
