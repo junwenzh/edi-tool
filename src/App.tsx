@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import ExportButton from './components/ExportButton';
 import FilePicker from './components/FilePicker';
 import { exportCsv } from './utils/exportCsv';
@@ -26,6 +26,7 @@ function App() {
     const csv = exportCsv(results);
 
     setCsv(csv);
+    toast('Loaded file');
   };
 
   const readFileContent = (file: File): Promise<string> => {
