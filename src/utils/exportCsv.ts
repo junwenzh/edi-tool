@@ -19,6 +19,8 @@ function exportCsv(providers: Pairs[]): string {
     'city',
     'state',
     'zip',
+    'telephone',
+    'fax',
     'recordType',
     'entityType',
     'firstName',
@@ -34,6 +36,8 @@ function exportCsv(providers: Pairs[]): string {
     'city',
     'state',
     'zip',
+    'telephone',
+    'fax',
   ]);
 
   providers.forEach(pair => {
@@ -51,6 +55,8 @@ function exportCsv(providers: Pairs[]): string {
       pair.billing.city || '',
       pair.billing.state || '',
       pair.billing.zip || '',
+      pair.billing.telephone || '',
+      pair.billing.fax || '',
       pair.rendering?.recordType || '',
       pair.rendering?.entityType || '',
       pair.rendering?.firstName || '',
@@ -66,6 +72,8 @@ function exportCsv(providers: Pairs[]): string {
       pair.facility?.city || '',
       pair.facility?.state || '',
       pair.facility?.zip || '',
+      pair.facility?.telephone || '',
+      pair.facility?.fax || '',
     ]);
   });
 

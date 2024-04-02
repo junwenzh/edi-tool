@@ -2,6 +2,7 @@ import { LoopServiceFacility } from '../parseLoops/parseLoopServiceFacility';
 import { parseN3 } from '../parseSegments/parseN3';
 import { parseN4 } from '../parseSegments/parseN4';
 import { parseNM1 } from '../parseSegments/parseNM1';
+import { parsePER } from '../parseSegments/parsePER';
 import { Provider } from './extractProviders';
 
 function extractServiceFacility(idx: LoopServiceFacility, lines: string[][]) {
@@ -28,6 +29,13 @@ function extractServiceFacility(idx: LoopServiceFacility, lines: string[][]) {
     provider.city = n4.city;
     provider.state = n4.state;
     provider.zip = n4.zip;
+  }
+
+  if (idx.PER) {
+    const line = lines[idx.PER];
+    const per = parsePER(line);
+    provider.telephone = per.telephone;
+    provider.fax = per.fax;
   }
 
   return provider;

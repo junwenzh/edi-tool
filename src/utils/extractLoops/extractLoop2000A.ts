@@ -2,6 +2,7 @@ import { Loop2000A } from '../parseLoops/parseLoop2000A';
 import { parseN3 } from '../parseSegments/parseN3';
 import { parseN4 } from '../parseSegments/parseN4';
 import { parseNM1 } from '../parseSegments/parseNM1';
+import { parsePER } from '../parseSegments/parsePER';
 import { parsePRV } from '../parseSegments/parsePRV';
 import { parseREF } from '../parseSegments/parseREF';
 import { Provider } from './extractProviders';
@@ -58,6 +59,15 @@ function extractLoop2000A(loop: Loop2000A, lines: string[][]): Pairs[] {
     const n4 = parseN4(line);
     const address = `${n4.city}, ${n4.state} ${n4.zip}`;
     provider.address2 = address;
+  }
+
+  if (loop.PER) {
+    const line = lines[loop.PER];
+    if (line[1] === 'IC') {
+      const per = parsePER(line);
+      provider.telephone = per.telephone;
+      provider.fax = per.fax;
+    }
   }
 
   if (loop.providers) {
