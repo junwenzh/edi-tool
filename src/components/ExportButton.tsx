@@ -12,7 +12,7 @@ function ExportButton({ data, filename }: ExportButtonProps) {
 
     const linkElement = document.createElement('a');
     linkElement.href = fileUrl;
-    linkElement.download = filename;
+    linkElement.download = `${filename}.txt`;
     linkElement.click();
 
     URL.revokeObjectURL(fileUrl); // Cleanup
@@ -25,7 +25,7 @@ function ExportButton({ data, filename }: ExportButtonProps) {
       onClick={createTextFile}
       className="border bg-blue-100 rounded-lg my-8 p-4 text-xl font-bold"
     >
-      Export File
+      {`Export File ${filename}`}
     </button>
   );
 }

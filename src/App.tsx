@@ -3,12 +3,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import ExportButton from './components/ExportButton';
 import FilePicker from './components/FilePicker';
 import { exportCsv } from './utils/exportCsv';
+import { exportTemplateCsv } from './utils/exportTemplateCsv';
 import { Pairs } from './utils/extractLoops/extractLoop2000A';
 import { extractProviders } from './utils/extractLoops/extractProviders';
 import { parseFile } from './utils/parseFile';
 
 function App() {
   const [csv, setCsv] = useState<string>('');
+  const [template, setTemplate] = useState<string>('');
+
   const handleFileSelected = async (file: File) => {
     console.log('start');
     const content = await readFileContent(file);
@@ -24,8 +27,10 @@ function App() {
     }
 
     const csv = exportCsv(results);
+    const template = exportTemplateCsv(results);
 
     setCsv(csv);
+    setTemplate(template);
     toast('Loaded file');
   };
 
@@ -44,7 +49,8 @@ function App() {
       <div className="flex gap-8">
         <FilePicker name="Import File" onFileSelected={handleFileSelected} />
       </div>
-      <ExportButton data={csv} filename="Providers.txt" />
+      <ExportButton data={csv} filename="Providers Data" />
+      <ExportButton data={template} filename="Provider Add Template" />
       <Toaster />
     </main>
   );
