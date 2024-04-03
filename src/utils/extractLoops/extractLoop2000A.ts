@@ -71,7 +71,7 @@ function extractLoop2000A(loop: Loop2000A, lines: string[][]): Pairs[] {
     }
   }
 
-  if (loop.providers) {
+  if (loop.providers.length) {
     for (const pair of loop.providers) {
       let rendering;
       let facility;
