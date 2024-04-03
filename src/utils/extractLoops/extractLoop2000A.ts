@@ -50,15 +50,16 @@ function extractLoop2000A(loop: Loop2000A, lines: string[][]): Pairs[] {
   if (loop.N3) {
     const line = lines[loop.N3];
     const n3 = parseN3(line);
-    const address = `${n3.address1} ${n3.address2 || ''}`.trim();
-    provider.address1 = address;
+    provider.address1 = n3.address1;
+    provider.address2 = n3.address2;
   }
 
   if (loop.N4) {
     const line = lines[loop.N4];
     const n4 = parseN4(line);
-    const address = `${n4.city}, ${n4.state} ${n4.zip}`;
-    provider.address2 = address;
+    provider.city = n4.city;
+    provider.state = n4.state;
+    provider.zip = n4.zip;
   }
 
   if (loop.PER) {
